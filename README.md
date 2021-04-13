@@ -6,9 +6,9 @@
 
 ## Auteur(s)
 
-|Nom|Prénom|login|email|
-|--|--|--|--|
-| ??? | ??? | ??? | ???@???.?? |
+| Nom      | Prénom | login    | email                               |
+| -------- | ------ | -------- | ----------------------------------- |
+| CARICAND | Maxime | cm171529 | maxime.caricand@etu.univ-lehavre.fr |
 
 ## Travail à réaliser
 
