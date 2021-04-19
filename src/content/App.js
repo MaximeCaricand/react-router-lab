@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { MQTT_URL, mqttClient } from '.'
+import { MQTT_URL, mqttClient } from '..'
 
 export default class App extends React.Component {
 

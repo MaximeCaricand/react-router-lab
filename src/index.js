@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './content/App';
 import reportWebVitals from './reportWebVitals';
 import MQTTSensors from './model/mqttClient';
 import { BrowserRouter } from 'react-router-dom'
