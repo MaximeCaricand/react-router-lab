@@ -1,9 +1,11 @@
 import './App.css';
 import React from 'react';
-import { MQTT_URL, mqttClient } from '..'
+import { Route } from 'react-router-dom';
+import { MQTT_URL, mqttClient } from '..';
 
-import BrokerUrl from './BrokerUrl/BrokerUrl'
-import SensorList from './SensorList/SensorList'
+import BrokerUrl from './BrokerUrl/BrokerUrl';
+import SensorList from './SensorList/SensorList';
+import Sensor from './Sensor/Sensor';
 
 export default class App extends React.Component {
 
@@ -12,7 +14,6 @@ export default class App extends React.Component {
         this.state = {
             mqttUrl: MQTT_URL,
             sensorList: [],
-            curentSensor: null,
         }
         mqttClient.on('addSensor', () => this.updateState({ sensorList: mqttClient.getSensorsNames() }));
         // mqttClient.on('updateSensor', (curentSensor) => this.updateState({ curentSensor }));
@@ -23,11 +24,23 @@ export default class App extends React.Component {
     }
 
     render() {
+
+        const items = [];
+        this.state.sensorList.forEach((sensorName, index) => {
+            const link = `/${getlinkFromName(sensorName)}`;
+            items.push(<Route exact path={link} key={index} render={() => <Sensor sensor={mqttClient.getSensor(sensorName)} />} />);
+        });
+
         return (
             <div className="App">
                 <div className="BrokerUrl"><BrokerUrl mqttUrl={this.state.mqttUrl} /></div>
                 <div className="SensorList"><SensorList sensorList={this.state.sensorList} /></div>
+                {items}
             </div>
         );
     }
+}
+
+function getlinkFromName(sensorName) {
+    return sensorName.replaceAll(' ', '_');
 }
