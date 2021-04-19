@@ -4,13 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import MQTTSensors from './model/mqttClient';
-
-new MQTTSensors().startMQTT('ws://random.pigne.org:9001');
+import { BrowserRouter } from 'react-router-dom'
+export const MQTT_URL = 'ws://random.pigne.org:9001'
+export const mqttClient = new MQTTSensors();
+mqttClient.startMQTT(MQTT_URL);
 
 ReactDOM.render(
-    <React.StrictMode>
+    <BrowserRouter>
         <App />
-    </React.StrictMode>,
+    </BrowserRouter>,
     document.getElementById('root')
 );
 

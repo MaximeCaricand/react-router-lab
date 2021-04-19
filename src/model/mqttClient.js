@@ -1,9 +1,11 @@
 import { connect } from 'mqtt';
 import Sensor from './SensorModel';
+import { EventEmitter } from 'events'
 
-export default class MQTTSensors {
+export default class MQTTSensors extends EventEmitter {
 
     constructor() {
+        super();
         /** @type {Array<Sensor>} */
         this._sensors = [];
     }
@@ -53,9 +55,10 @@ export default class MQTTSensors {
         const curentSensor = this.getSensor(newSensor.name);
         if (curentSensor) {
             curentSensor.addValue(newSensor.value);
+            this.emit('updateSensor', newSensor.value);
         } else {
             this._sensors.push(new Sensor(newSensor));
+            this.emit('addSensor');
         }
-        console.log(this._sensors);
     }
 }
