@@ -8,7 +8,9 @@
 
 | Nom      | Prénom | login    | email                               |
 | -------- | ------ | -------- | ----------------------------------- |
+| LABBE    | Alexis | la172185 | alexis.labbe@etu.univ-lehavre.fr    |
 | CARICAND | Maxime | cm171529 | maxime.caricand@etu.univ-lehavre.fr |
+
 
 ## Travail à réaliser
 
