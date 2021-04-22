@@ -1,8 +1,8 @@
 .value {
     font-size: 2em;
-    font-weight: 800;
+    font-weight: 650;
     text-align: center;
-    padding-left: 20%;   
+    padding-left: 30%;   
 }
 
 .name {
@@ -11,6 +11,7 @@
     text-align: center;
     height: 50px;
     font-size: 2em;
+    min-width: 500px;
 }
 
 .text {
@@ -21,7 +22,7 @@
 .table {
     display: grid;
     grid-template-rows: repeat(6, 1fr);
-    padding-left: 30%;
+    padding-left: 40%;
     font-size: 0.3cm;
     font-weight: 500;
 }
