@@ -1,0 +1,20 @@
+.App {
+    margin-top: 8%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 1000px;
+    padding-left: 10%;
+}
+
+.listsensor {
+    grid-column: 1;
+}
+
+.actualvalue {
+    grid-column: 2/4;
+    margin-right: 30%;
+}
+
+
+

@@ -38,7 +38,6 @@ export default class App extends React.Component {
                 <div className={styles.App}>
                     <div className={styles.listsensors}><SensorList sensorList={this.state.sensorList} /></div>
                     <div className={styles.actualvalue}>{items}</div>
-                    <div className={styles.history}></div>
                 </div>
             </div>
         );
