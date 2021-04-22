@@ -1,76 +1,29 @@
-.Sensors {
-    display: grid;
-    grid-template-rows: repeat(6, 1fr);
-    gap: 10px;
-    padding-left: 10%;
-}
-
-.sensor1 {
+.Link {
     border: solid 2px black;
-    grid-row: 1;
-    background: rgb(243, 253, 253);
     text-align: center;
     width: 240px;
     height: 60px;
     margin-left: 15px;
+    margin-bottom: 15px;
     line-height:60px;
 }
 
-.sensor2 {
-    grid-row: 2;
-    border: solid 2px black;
+.pair {
+    background: rgb(243, 253, 253);    
+}
+
+.odd {
     background: rgb(158, 152, 157);
-    text-align: center;
-    width: 240px;
-    height: 60px;
-    margin-left: 15px;
-    line-height:60px;
 }
 
-.sensor3 {
-    grid-row: 3;
-    border: solid 2px black;
-    background: rgb(243, 253, 253);
-    text-align: center;
-    width: 240px;
-    height: 60px;
-    margin-left: 15px;
-    line-height:60px;
+.selectedLink {
+    color: black;
 }
 
-.sensor4 {
-    grid-row: 4;
-    border: solid 2px black;
-    background: rgb(158, 152, 157);
-    text-align: center;
-    width: 240px;
-    height: 60px;
-    margin-left: 15px;
-    line-height:60px;
+.normalLink {
+    color: #0002fc
 }
 
-.sensor5 {
-    grid-row: 5;
-    border: solid 2px black;
-    background: rgb(243, 253, 253);
-    text-align: center;
-    width: 240px;
-    height: 60px;
-    margin-left: 15px;
-    line-height:60px;
-}
-
-.sensor6 {
-    grid-row: 6;
-    border: solid 2px black;
-    background: rgb(158, 152, 157);
-    text-align: center;
-    width: 240px;
-    height: 60px;
-    margin-left: 15px;
-    line-height:60px;
-}
-
-.lien a{
+a {
     text-decoration: none;
 }

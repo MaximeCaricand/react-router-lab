@@ -55,10 +55,9 @@ export default class MQTTSensors extends EventEmitter {
         const curentSensor = this.getSensor(newSensor.name);
         if (curentSensor) {
             curentSensor.addValue(newSensor.value);
-            this.emit('updateSensor', newSensor.value);
         } else {
             this._sensors.push(new Sensor(newSensor));
-            this.emit('addSensor');
         }
+        this.emit('updateSensor', newSensor.name);
     }
 }

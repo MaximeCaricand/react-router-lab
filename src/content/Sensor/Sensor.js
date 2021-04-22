@@ -1,30 +1,39 @@
 import styles from './Sensor.module.css'
 
-
 export default function Sensor(props) {
-    console.log(props.sensor);
-    const index = props.sensor.valueHistory.length - 1;
+    const currentValue = props.sensor.sensorValues.slice(-1)[0].value;
     return (
         <div>
             <div className={styles.name}>{props.sensor.name}</div>
             <div className={styles.text}>Valeur actuel :</div>
-            <div className={styles.value}>{props.sensor.valueHistory[index]}</div>
+            <div className={styles.value}>{currentValue}</div>
             <div className={styles.text}>Historiques :</div>
-            <div className={styles.history}>{tableHistory(props.sensor.valueHistory)}</div>
+            <div className={styles.history}>{<TableHistory tab={props.sensor.sensorValues} />}</div>
         </div>
     );
 }
 
-function tableHistory(tab){
-    const index = tab.length;
+function TableHistory(props) {
+    // slice limite l'affichage à 6 éléments
+    const rows = props.tab.sort((a, b) => b.date - a.date).slice(0, 6).map((sensorValue, index) => {
+        return (
+            <tr key={index}>
+                <td>{sensorValue.value}</td>
+                <td>{sensorValue.formatedDate}</td>
+            </tr>
+        )
+    });
     return (
-        <div className={styles.table}>
-            <div className={styles.case1}>{tab[index-2]}</div>
-            <div className={styles.case2}>{tab[index-3]}</div>
-            <div className={styles.case3}>{tab[index-4]}</div>
-            <div className={styles.case4}>{tab[index-5]}</div>
-            <div className={styles.case5}>{tab[index-6]}</div>
-            <div className={styles.case6}>{tab[index-7]}</div>
-        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>{'Valeur du capteur'}</th>
+                    <th>{'Date d\'acquisition'}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {rows}
+            </tbody>
+        </table>
     );
 }

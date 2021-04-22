@@ -1,14 +1,14 @@
 import styles from './SensorList.module.css';
 import { Link } from 'react-router-dom';
+import { getlinkFromName } from '../../index'
 
 export default function SensorList(props) {
-    const items = [];
-    let cpt = 0;
-    props.sensorList.forEach((sensorName, index) => {
-        items.push(<div className = {styles["sensor"+ ++cpt]}><SensorName key={index} name={sensorName} /></div>);
+    const items = props.sensorList.map((sensorName, index) => {
+        const isSelected = props.currentSensor === sensorName;
+        return <SensorName key={index} name={sensorName} index={index} isSelected={isSelected} onClick={() => props.onClick(sensorName)} />;
     });
     return (
-        <div className={styles.Sensors}>
+        <div>
             {items}
         </div>
     );
@@ -16,15 +16,13 @@ export default function SensorList(props) {
 
 function SensorName(props) {
     const link = `/${getlinkFromName(props.name)}`;
+    const isPair = props.index % 2 ? 'odd' : 'pair';
+    const isSelected = props.isSelected ? 'normalLink' : 'selectedLink';
     return (
-        <div className={styles.lien}>
-            <Link to={link}>{props.name}</Link>
-        </div>
+        <Link to={link} >
+            <div className={`${styles.Link} ${styles[isPair]} ${styles[isSelected]}`} key={props.index} onClick={props.onClick}>
+                {props.name}
+            </div>
+        </Link>
     );
 }
-
-
-function getlinkFromName(sensorName) {
-    return sensorName.replaceAll(' ', '_');
-}
-

@@ -7,8 +7,9 @@
     padding-left: 10%;
 }
 
-.listsensor {
+.listsensors {
     grid-column: 1;
+    width: 0;
 }
 
 .actualvalue {
