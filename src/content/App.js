@@ -1,4 +1,4 @@
-import './App.css';
+import styles from './App.module.css';
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { MQTT_URL, mqttClient } from '..';
@@ -26,6 +26,7 @@ export default class App extends React.Component {
     render() {
 
         const items = [];
+        
         this.state.sensorList.forEach((sensorName, index) => {
             const link = `/${getlinkFromName(sensorName)}`;
             items.push(<Route exact path={link} key={index} render={() => <Sensor sensor={mqttClient.getSensor(sensorName)} />} />);
@@ -34,8 +35,11 @@ export default class App extends React.Component {
         return (
             <div className="App">
                 <div className="BrokerUrl"><BrokerUrl mqttUrl={this.state.mqttUrl} /></div>
-                <div className="SensorList"><SensorList sensorList={this.state.sensorList} /></div>
-                {items}
+                <div className={styles.App}>
+                    <div className={styles.listsensors}><SensorList sensorList={this.state.sensorList} /></div>
+                    <div className={styles.actualvalue}>{items}</div>
+                    <div className={styles.history}></div>
+                </div>
             </div>
         );
     }
