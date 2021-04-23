@@ -1,20 +1,28 @@
 .App {
     margin-top: 8%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    grid-auto-columns: minmax(150px, auto);
+    grid-auto-rows: minmax(0px,auto);
     max-width: 1100px;
     padding-left: 10%;
 }
 
 .listsensors {
-    grid-column: 1;
+    grid-column: 1/4;
+    grid-row: 4/5;
     width: 0;
 }
 
 .actualvalue {
-    grid-column: 2/4;
+    grid-column: 3/4;
+    grid-row: 4/5;
     margin-right: 30%;
+}
+
+.broker {
+    grid-row: 1/5;
+    grid-column: 1;
+    margin-left: 30%;
 }
 
 

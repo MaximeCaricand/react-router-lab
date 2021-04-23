@@ -38,7 +38,7 @@ export default class App extends React.Component {
         });
         return (
             <div className="App">
-                <div className="BrokerUrl"><BrokerUrl mqttUrl={this.state.mqttUrl} /></div>
+                <div className={styles.broker}><BrokerUrl mqttUrl={this.state.mqttUrl} /></div>
                 <div className={styles.App}>
                     <div className={styles.listsensors}>
                         <SensorList sensorList={this.state.sensorList} currentSensor={this.state.currentSensor}
