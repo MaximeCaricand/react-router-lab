@@ -46,6 +46,9 @@ export default class App extends React.Component {
                     </div>
                     <div className={styles.actualvalue}>{items}</div>
                 </div>
+                <footer className={styles.footer} >
+                    <em>By Maxime CARICAND and Alexis LABBE</em>
+                </footer>
             </div>
         );
     }
