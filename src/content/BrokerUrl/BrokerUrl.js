@@ -1,10 +1,12 @@
-import './BrokerUrl.css';
+import styles from './BrokerUrl.module.css';
 
 export default function BrokerUrl(props) {
     return (
-        <div className="mqtt-url">
-            <p>URL du serveur MQTT</p>
-            <a className="mqtt-url-link" href={props.mqttUrl}>{props.mqttUrl}</a>
+        <div>
+            <div>URL du serveur MQTT</div>
+            <form id="form" action= "http://localhost:3000/" method="GET">
+                <input id="url" name="url" className={styles['mqtt-url-link']} type='text' defaultValue={props.mqttUrl} />
+            </form>
         </div>
     );
 }

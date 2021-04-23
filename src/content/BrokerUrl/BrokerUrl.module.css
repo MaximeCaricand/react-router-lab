@@ -1,9 +1,6 @@
-
-
 .mqtt-url-link {
     border: solid 1px black;
     background: lightcyan;
     width: fit-content;
     padding: 8px;
-    text-decoration: underline;
 }

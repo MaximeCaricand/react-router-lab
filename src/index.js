@@ -5,8 +5,14 @@ import App from './content/App';
 import reportWebVitals from './reportWebVitals';
 import MQTTSensors from './mqtt/mqttClient';
 import { BrowserRouter } from 'react-router-dom'
-export const MQTT_URL = 'ws://random.pigne.org:9001'
+export let MQTT_URL = 'ws://random.pigne.org:9001'
 export const mqttClient = new MQTTSensors();
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const url = urlParams.get('url');
+if(url !== null)
+    MQTT_URL = url;
 mqttClient.startMQTT(MQTT_URL);
 
 ReactDOM.render(
