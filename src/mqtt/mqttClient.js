@@ -3,12 +3,14 @@ import Sensor from './SensorModel';
 import { EventEmitter } from 'events'
 
 export default class MQTTSensors extends EventEmitter {
-
+    isConnected = false;
+    
     constructor() {
         super();
         /** @type {Array<Sensor>} */
         this._sensors = [];
     }
+    
 
     get sensors() {
         return this._sensors;
@@ -17,6 +19,7 @@ export default class MQTTSensors extends EventEmitter {
     startMQTT(url) {
         const client = connect(url);
         client.on('connect', () => {
+            this.isConnected = true;
             console.log('connected');
             client.subscribe('value/+', (_, granted) => {
                 granted.forEach(entry => { // maybe useless ...

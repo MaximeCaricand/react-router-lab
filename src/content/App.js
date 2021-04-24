@@ -2,7 +2,7 @@ import styles from './App.module.css';
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { MQTT_URL, mqttClient } from '..';
-
+import logo from '../404.png';
 import BrokerUrl from './BrokerUrl/BrokerUrl';
 import SensorList from './SensorList/SensorList';
 import Sensor from './Sensor/Sensor';
@@ -29,6 +29,8 @@ export default class App extends React.Component {
         this.setState((state) => (Object.assign({}, state, newState)));
     }
 
+    
+
     render() {
         const items = this.state.sensorList.map((sensorName, index) => {
             const link = `/${getlinkFromName(sensorName)}`;
@@ -46,10 +48,23 @@ export default class App extends React.Component {
                     </div>
                     <div className={styles.actualvalue}>{items}</div>
                 </div>
+                <ifNoSensor />
+                {this.test()}
                 <footer className={styles.footer} >
                     <em>By Maxime CARICAND and Alexis LABBE</em>
                 </footer>
             </div>
         );
     }
+
+    test(){
+        if(! mqttClient.isConnected)
+            return (
+                <div className={styles.wrongURL}>
+                    <img className={styles.image} src={logo} alt=""></img>
+                    <div>L'URL entrée n'a rien donnée</div>
+                </div>    
+            );
+    }
 }
+
