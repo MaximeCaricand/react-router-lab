@@ -3,6 +3,7 @@ export default class Sensor {
         this._name = checkType(name, 'string');
         this._type = checkType(type, 'string');
         this._sensorValues = [];
+        this._currentSensorValue = null;
         this.addValue(value);
     }
     get name() {
@@ -11,11 +12,16 @@ export default class Sensor {
     get type() {
         return this._type;
     }
+    get currentSensorValue() {
+        return this._currentSensorValue;
+    }
     get sensorValues() {
         return this._sensorValues;
     }
     addValue(value) {
-        this._sensorValues.push(new SensorValue(value));
+        const newValue = new SensorValue(value)
+        this._currentSensorValue = newValue;
+        this._sensorValues.push(newValue);
     }
     toString() {
         let res = `{name: ${this.name}, type: ${this.type}, data: {`;

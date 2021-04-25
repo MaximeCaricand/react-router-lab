@@ -5,20 +5,16 @@ import App from './content/App';
 import reportWebVitals from './reportWebVitals';
 import MQTTSensors from './mqtt/mqttClient';
 import { BrowserRouter } from 'react-router-dom'
-export let MQTT_URL = 'ws://random.pigne.org:9001'
 export const mqttClient = new MQTTSensors();
-
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const url = urlParams.get('url');
-if(url !== null)
-    MQTT_URL = url;
-mqttClient.startMQTT(MQTT_URL);
+mqttClient.url = getUrlCookie()
+mqttClient.startMQTT();
 
 ReactDOM.render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>,
+    <React.StrictMode>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </React.StrictMode>,
     document.getElementById('root')
 );
 
@@ -29,4 +25,14 @@ reportWebVitals();
 
 export function getlinkFromName(sensorName) {
     return sensorName.replaceAll(' ', '_');
+}
+
+function getUrlCookie() {
+    const defaultURl = 'ws://random.pigne.org:9001';
+    const urlCookie = document.cookie.split(';').find(cookie => cookie.startsWith(' mqttUrl='));
+    if (urlCookie) {
+        return urlCookie.split('=').pop();
+    }
+    document.cookie = 'mqttUrl=' + defaultURl;
+    return defaultURl;
 }

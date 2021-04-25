@@ -3,34 +3,48 @@ import Sensor from './SensorModel';
 import { EventEmitter } from 'events'
 
 export default class MQTTSensors extends EventEmitter {
-    isConnected = false;
-    
+
     constructor() {
         super();
         /** @type {Array<Sensor>} */
         this._sensors = [];
+        this._url = 'ws://random.pigne.org:9001';
+        this._isConnected = false;
     }
-    
 
     get sensors() {
         return this._sensors;
     }
+    get url() {
+        return this._url;
+    }
+    set url(url) {
+        this._url = url;
+    }
+    get isConnected() {
+        return this._isConnected;
+    }
 
-    startMQTT(url) {
-        const client = connect(url);
-        client.on('connect', () => {
-            this.isConnected = true;
-            console.log('connected');
-            client.subscribe('value/+', (_, granted) => {
-                granted.forEach(entry => { // maybe useless ...
-                    console.log(`subscribed to ${entry.topic}`);
+    startMQTT() {
+        try {
+            const client = connect(this.url);
+            this._isConnected = true;
+            client.on('connect', () => {
+                console.log('connected');
+                client.subscribe('value/+', (_, granted) => {
+                    granted.forEach(entry => { // maybe useless ...
+                        console.log(`subscribed to ${entry.topic}`);
+                    });
                 });
             });
-        });
-        client.on('message', (_, message) => {
-            const data = JSON.parse(message);
-            this.updateSensorValues(data);
-        });
+            client.on('message', (_, message) => {
+                const data = JSON.parse(message);
+                this.updateSensorValues(data);
+            });
+        } catch (error) {
+            console.log(error);
+            this._isConnected = false;
+        }
     }
 
     /**
