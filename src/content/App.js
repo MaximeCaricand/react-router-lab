@@ -1,7 +1,7 @@
 import styles from './App.module.css';
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { mqttClient, getlinkFromName } from '..';
+import { mqttClient, getlinkFromName, getUrlCookie, setUrlCookie } from '..';
 import logo from '../404.png';
 import BrokerUrl from './BrokerUrl/BrokerUrl';
 import SensorList from './SensorList/SensorList';
@@ -12,10 +12,11 @@ export default class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            mqttUrl: mqttClient.url,
+            mqttUrl: getUrlCookie(),
             sensorList: [],
             currentSensor: null
         }
+        this.handleBrokerInputSubmit = this.handleBrokerInputSubmit.bind(this);
     }
 
     componentWillMount() {
@@ -56,10 +57,15 @@ export default class App extends React.Component {
         }
     }
 
+    handleBrokerInputSubmit(url) {
+        setUrlCookie(url);
+        this.updateState({ mqttUrl: url });
+    }
+
     render() {
         return (
             <div className={styles.app}>
-                <div className={styles.broker}><BrokerUrl mqttUrl={this.state.mqttUrl} /></div>
+                <div className={styles.broker}><BrokerUrl mqttUrl={this.state.mqttUrl} onSubmit={this.handleBrokerInputSubmit} /></div>
                 {this.renderAppContent()}
                 <footer className={styles.footer} >
                     <em>By Maxime CARICAND and Alexis LABBE</em>

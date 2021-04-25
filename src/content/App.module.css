@@ -30,7 +30,8 @@
 }
 
 .footer {
-    text-align: center;
+    margin-top: 10px;
+    text-align: right;
 }
 
 .wrongURL {

@@ -1,12 +1,34 @@
+import React from 'react';
 import styles from './BrokerUrl.module.css';
 
-export default function BrokerUrl(props) {
-    return (
-        <div>
-            <div>URL du serveur MQTT</div>
-            <form id="form" action="http://localhost:3000/" method="GET">
-                <input id="url" name="url" className={styles['mqtt-url-link']} type='url' defaultValue={props.mqttUrl} />
-            </form>
-        </div>
-    );
+export default class BrokerUrl extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            url: this.props.mqttUrl
+        }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({ url: event.target.value });
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        this.props.onSubmit(this.state.url);
+    }
+
+    render() {
+        return (
+            <div>
+                <div>URL du serveur MQTT</div>
+                <form onSubmit={this.handleSubmit}>
+                    <input className={styles['mqtt-url-link']} type='text' defaultValue={this.state.url} onChange={this.handleChange} />
+                </form>
+            </div>
+        );
+    }
 }

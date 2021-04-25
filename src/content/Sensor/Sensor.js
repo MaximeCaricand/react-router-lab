@@ -23,6 +23,16 @@ function TableHistory(props) {
             </tr>
         );
     });
+    // const rowsLength = rows.length;
+    // console.log(6 - rowsLength);
+    // for (let i = rowsLength; i <= 6 - rowsLength; i++) {
+    //     rows.push(
+    //         <tr className={styles['ligne' + (i % 2 ? "1" : "2")]} key={i}>
+    //             <td>&nbsp;</td>
+    //             <td>&nbsp;</td>
+    //         </tr>
+    //     )
+    // }
     return (
         <table className={styles.table}>
             <thead>
