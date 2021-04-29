@@ -13,7 +13,7 @@ export default class MQTTSensors extends EventEmitter {
     }
 
     get sensors() {
-        return this._sensors;
+        return Object.assign([], this._sensors);
     }
     get isConnected() {
         return this.client?.connected;
@@ -71,6 +71,6 @@ export default class MQTTSensors extends EventEmitter {
         } else {
             this._sensors.push(new Sensor(newSensor));
         }
-        this.emit('updateSensor', newSensor.name);
+        this.emit('updateSensor');
     }
 }

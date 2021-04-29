@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './content/App';
 import reportWebVitals from './reportWebVitals';
-import MQTTSensors from './mqtt/mqttClient';
 import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
-            <App mqttClient={new MQTTSensors()} />
+            <App />
         </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root')

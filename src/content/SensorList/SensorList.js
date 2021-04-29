@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { getlinkFromName } from '../../utils'
 
 export default function SensorList(props) {
-    const items = props.sensorList.map((sensorName, index) => {
+    const items = props.sensorNames.map((sensorName, index) => {
         const isSelected = props.currentSensor === sensorName;
         return <SensorName key={index} name={sensorName} index={index} isSelected={isSelected} onClick={() => props.onClick(sensorName)} />;
     });
