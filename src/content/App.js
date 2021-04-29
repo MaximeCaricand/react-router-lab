@@ -19,7 +19,7 @@ export default class App extends React.Component {
         this.handleBrokerInputSubmit = this.handleBrokerInputSubmit.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         mqttClient.on('updateSensor', (data) => {
             const dataToUpdate = data ? { sensorList: mqttClient.getSensorsNames() } : null;
             this.updateState(dataToUpdate);
