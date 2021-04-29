@@ -1,5 +1,5 @@
 import styles from './App.module.css';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { getlinkFromName, getUrlCookie, setUrlCookie } from '../utils';
 import logo from '../404.png';
@@ -7,47 +7,36 @@ import BrokerUrl from './BrokerUrl/BrokerUrl';
 import SensorList from './SensorList/SensorList';
 import Sensor from './Sensor/Sensor';
 
-export default class App extends React.Component {
+export default function App(props) {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            mqttClient: props.mqttClient,
-            mqttUrl: getUrlCookie(),
-            sensorList: [],
-            currentSensor: null
-        }
-        this.handleBrokerInputSubmit = this.handleBrokerInputSubmit.bind(this);
-    }
+    const [mqttClient, setMqttClient] = useState(props.mqttClient);
+    const [mqttUrl, setMqttUrl] = useState(getUrlCookie());
+    const [sensorList, setSensorList] = useState([]);
+    const [currentSensor, setCurrentSensor] = useState(null);
 
-    componentDidMount() {
-        this.state.mqttClient?.on('updateSensor', (data) => {
-            const dataToUpdate = data ? { sensorList: this.state.mqttClient.getSensorsNames() } : null;
-            this.updateState(dataToUpdate);
+    useEffect(() => {
+        mqttClient.startMQTT(mqttUrl);
+        mqttClient.on('updateSensor', (data) => {
+            if (data) {
+                setSensorList(mqttClient.getSensorsNames());
+            }
+            setMqttClient(mqttUrl);
         });
-    }
+    })
 
-    componentWillUnmount() {
-        this.state.mqttClient?.removeListener('updateSensor');
-    }
-
-    updateState(newState) {
-        this.setState((state) => (Object.assign({}, state, newState)));
-    }
-
-    renderAppContent() {
-        if (this.state.mqttClient?.isConnected) {
-            const items = this.state.sensorList.map((sensorName, index) => {
+    function renderAppContent() {
+        if (mqttClient.isConnected) {
+            const items = sensorList.map((sensorName, index) => {
                 const link = `/${getlinkFromName(sensorName)}`;
                 return <Route exact path={link} key={index} render={() =>
-                    <Sensor currentSensor={this.state.currentSensor} sensor={this.state.mqttClient.getSensor(sensorName)} />
+                    <Sensor currentSensor={currentSensor} sensor={mqttClient.getSensor(sensorName)} />
                 } />;
             });
             return (
                 <div className={styles.content}>
                     <div className={styles.listsensors}>
-                        <SensorList sensorList={this.state.sensorList} currentSensor={this.state.currentSensor}
-                            onClick={(sensorName) => this.updateState({ currentSensor: sensorName })} />
+                        <SensorList sensorList={sensorList} currentSensor={currentSensor}
+                            onClick={(sensorName) => setCurrentSensor(sensorName)} />
                     </div>
                     <div className={styles.actualvalue}>{items}</div>
                 </div>
@@ -62,21 +51,19 @@ export default class App extends React.Component {
         }
     }
 
-    handleBrokerInputSubmit(url) {
+    function handleBrokerInputSubmit(url) {
         setUrlCookie(url);
-        this.updateState({ mqttUrl: url });
-        this.state.mqttClient?.startMQTT(url);
+        setMqttUrl(url);
+        mqttClient.startMQTT(mqttUrl);
     }
 
-    render() {
-        return (
-            <div className={styles.app}>
-                <div className={styles.broker}><BrokerUrl mqttUrl={this.state.mqttUrl} onSubmit={this.handleBrokerInputSubmit} /></div>
-                {this.renderAppContent()}
-                <footer className={styles.footer} >
-                    <em>By Maxime CARICAND and Alexis LABBE</em>
-                </footer>
-            </div>
-        );
-    }
+    return (
+        <div className={styles.app}>
+            <div className={styles.broker}><BrokerUrl mqttUrl={mqttUrl} onSubmit={handleBrokerInputSubmit} /></div>
+            {renderAppContent()}
+            <footer className={styles.footer} >
+                <em>By Maxime CARICAND and Alexis LABBE</em>
+            </footer>
+        </div>
+    );
 }
