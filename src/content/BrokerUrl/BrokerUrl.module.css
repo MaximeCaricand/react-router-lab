@@ -1,6 +1,16 @@
 .mqtt-url-link {
     border: solid 1px black;
     background: lightcyan;
-    width: 35%;
+    width: 25%;
     padding: 10px;
+}
+
+.mqtt-url-button { 
+    margin-left: 10px;
+    border: none;
+    color: white;
+    padding: 9px 16px;
+    text-align: center;
+    background-color: #555555;
+    font-size: 15px;
 }
