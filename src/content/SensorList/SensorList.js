@@ -1,6 +1,6 @@
 import styles from './SensorList.module.css';
 import { Link } from 'react-router-dom';
-import { getlinkFromName } from '../../index'
+import { getlinkFromName } from '../../utils'
 
 export default function SensorList(props) {
     const items = props.sensorList.map((sensorName, index) => {

@@ -16,26 +16,31 @@ export default class MQTTSensors extends EventEmitter {
         return this._sensors;
     }
     get isConnected() {
-        return this.client.connected;
+        return this.client?.connected;
     }
 
     startMQTT(url) {
         if (this.client) {
             this.client.end();
         }
-        this.client = connect(url);
-        this.client.on('connect', () => {
-            console.log('connected');
-            this.client.subscribe('value/+', (_, granted) => {
-                granted.forEach(entry => { // maybe useless ...
-                    console.log(`subscribed to ${entry.topic}`);
+        try {
+            this.client = connect(url);
+            this.client.on('connect', () => {
+                console.log('connected');
+                this.client.subscribe('value/+', (_, granted) => {
+                    granted.forEach(entry => { // maybe useless ...
+                        console.log(`subscribed to ${entry.topic}`);
+                    });
                 });
             });
-        });
-        this.client.on('message', (_, message) => {
-            const data = JSON.parse(message);
-            this.updateSensorValues(data);
-        });
+            this.client.on('message', (_, message) => {
+                const data = JSON.parse(message);
+                this.updateSensorValues(data);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 
     /**

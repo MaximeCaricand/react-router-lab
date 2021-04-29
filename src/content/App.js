@@ -1,7 +1,7 @@
 import styles from './App.module.css';
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { mqttClient, getlinkFromName, getUrlCookie, setUrlCookie } from '..';
+import { getlinkFromName, getUrlCookie, setUrlCookie } from '../utils';
 import logo from '../404.png';
 import BrokerUrl from './BrokerUrl/BrokerUrl';
 import SensorList from './SensorList/SensorList';
@@ -10,8 +10,9 @@ import Sensor from './Sensor/Sensor';
 export default class App extends React.Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
+            mqttClient: props.mqttClient,
             mqttUrl: getUrlCookie(),
             sensorList: [],
             currentSensor: null
@@ -20,10 +21,14 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        mqttClient.on('updateSensor', (data) => {
-            const dataToUpdate = data ? { sensorList: mqttClient.getSensorsNames() } : null;
+        this.state.mqttClient?.on('updateSensor', (data) => {
+            const dataToUpdate = data ? { sensorList: this.state.mqttClient.getSensorsNames() } : null;
             this.updateState(dataToUpdate);
         });
+    }
+
+    componentWillUnmount() {
+        this.state.mqttClient?.removeListener('updateSensor');
     }
 
     updateState(newState) {
@@ -31,11 +36,11 @@ export default class App extends React.Component {
     }
 
     renderAppContent() {
-        if (mqttClient.isConnected) {
+        if (this.state.mqttClient?.isConnected) {
             const items = this.state.sensorList.map((sensorName, index) => {
                 const link = `/${getlinkFromName(sensorName)}`;
                 return <Route exact path={link} key={index} render={() =>
-                    <Sensor currentSensor={this.state.currentSensor} sensor={mqttClient.getSensor(sensorName)} />
+                    <Sensor currentSensor={this.state.currentSensor} sensor={this.state.mqttClient.getSensor(sensorName)} />
                 } />;
             });
             return (
@@ -60,6 +65,7 @@ export default class App extends React.Component {
     handleBrokerInputSubmit(url) {
         setUrlCookie(url);
         this.updateState({ mqttUrl: url });
+        this.state.mqttClient?.startMQTT(url);
     }
 
     render() {

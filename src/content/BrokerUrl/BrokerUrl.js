@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './BrokerUrl.module.css';
+import { DEFAULT_URl } from '../../utils';
 
 export default class BrokerUrl extends React.Component {
 
@@ -25,8 +26,8 @@ export default class BrokerUrl extends React.Component {
         return (
             <div>
                 <div>URL du serveur MQTT</div>
-                <form onSubmit={this.handleSubmit}>
-                    <input className={styles['mqtt-url-link']} type='text' defaultValue={this.state.url} onChange={this.handleChange} />
+                <form onSubmit={this.handleSubmit} autoComplete="on">
+                    <input className={styles['mqtt-url-link']} type='url' name="url" placeholder={DEFAULT_URl} onChange={this.handleChange} />
                 </form>
             </div>
         );
