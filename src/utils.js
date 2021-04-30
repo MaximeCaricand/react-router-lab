@@ -9,7 +9,7 @@ export function setUrlCookie(newUrl) {
 }
 
 export function getUrlCookie() {
-    const urlCookie = document.cookie.split(';').find(cookie => cookie.startsWith(' mqttUrl='));
+    const urlCookie = document.cookie.split(';').find(cookie => cookie.trimLeft().startsWith('mqttUrl='));
     if (urlCookie) {
         return urlCookie.split('=').pop();
     }
