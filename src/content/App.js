@@ -46,17 +46,22 @@ export default function App(props) {
             return (
                 <div className={styles.wrongURL}>
                     <img className={styles.image} src={logo} alt=""></img>
-                    <div>L'URL entrée n'a rien donnée</div>
+                    <div id="textDefault">L'URL entrée n'a rien donnée</div>
                 </div>
             )
         }
     }
 
     function handleBrokerInputSubmit(url) {
-        setUrlCookie(url);
         setMqttUrl(url);
-        mqttClient.startMQTT(url);
     }
+
+    useEffect(() => {
+        if (mqttUrl) {
+            setUrlCookie(mqttUrl);
+            mqttClient.startMQTT(mqttUrl);
+        }
+    }, [mqttUrl, mqttClient]);
 
     return (
         <div className={styles.app}>
