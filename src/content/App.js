@@ -70,7 +70,7 @@ export default function App(props) {
     if(firstAppend){
         return (
             <div className={styles.app}>
-            <div className={styles.broker}><BrokerUrl mqttUrl={mqttUrl} onSubmit={() => handleBrokerInputSubmit()} /></div>
+            <div className={styles.broker}><BrokerUrl mqttUrl={mqttUrl} onSubmit={handleBrokerInputSubmit} /></div>
 
             <footer className={styles.footer} >
                 <em>By Maxime CARICAND and Alexis LABBE</em>
