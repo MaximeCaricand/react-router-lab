@@ -14,6 +14,7 @@ export default function App(props) {
     const [mqttUrl, setMqttUrl] = useState(getUrlCookie());
     const [sensorList, setSensorList] = useState([]);
     const [currentSensor, setCurrentSensor] = useState(null);
+    const [firstAppend, setFirstAppend] = useState(true);
 
     useEffect(() => {
         const listenerEvent = 'updateSensor';
@@ -34,12 +35,13 @@ export default function App(props) {
                 } />;
             });
             return (
-                <div className={styles.content}>
+                <div id="content" className={styles.content}>
                     <div className={styles.listsensors}>
                         <SensorList sensorNames={mqttClient.getSensorsNames()} currentSensor={currentSensor}
                             onClick={(sensorName) => setCurrentSensor(sensorName)} />
                     </div>
                     <div className={styles.actualvalue}>{items}</div>
+                    test
                 </div>
             )
         } else {
@@ -54,6 +56,7 @@ export default function App(props) {
 
     function handleBrokerInputSubmit(url) {
         setMqttUrl(url);
+        setFirstAppend(false);
     }
 
     useEffect(() => {
@@ -62,6 +65,19 @@ export default function App(props) {
             mqttClient.startMQTT(mqttUrl);
         }
     }, [mqttUrl, mqttClient]);
+
+    
+    if(firstAppend){
+        return (
+            <div className={styles.app}>
+            <div className={styles.broker}><BrokerUrl mqttUrl={mqttUrl} onSubmit={() => handleBrokerInputSubmit()} /></div>
+
+            <footer className={styles.footer} >
+                <em>By Maxime CARICAND and Alexis LABBE</em>
+            </footer>
+        </div>
+        );
+    }
 
     return (
         <div className={styles.app}>
