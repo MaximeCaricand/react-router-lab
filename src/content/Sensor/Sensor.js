@@ -2,11 +2,12 @@ import styles from './Sensor.module.css'
 
 export default function Sensor(props) {
     const currentValue = handleSensorValueType(props.sensor.currentSensorValue.value, props.sensor.type);
+
     return (
         <div>
-            <div className={styles.name}>{props.sensor.name}</div>
+            <div id="name" className={styles.name}>{props.sensor.name}</div>
             <div className={styles.text}>Valeur actuelle :</div>
-            <div className={styles.value}>{currentValue}</div>
+            <div id="currentvalue" className={styles.value}>{currentValue}</div>
             <div className={styles.text}>Historiques :</div>
             <div className={styles.history}>{<TableHistory sensor={props.sensor} />}</div>
         </div>
@@ -18,7 +19,7 @@ function TableHistory(props) {
     const rows = props.sensor.sensorValues.sort((a, b) => b.date - a.date).slice(0, 6).map((sensorValue, index) => {
         return (
             <tr className={styles['ligne' + (index % 2 ? "1" : "2")]} key={index}>
-                <td>{handleSensorValueType(sensorValue.value, props.sensor.type)}</td>
+                <td id={"value"+index}>{handleSensorValueType(sensorValue.value, props.sensor.type)}</td>
                 <td>{sensorValue.formatedDate}</td>
             </tr>
         );
