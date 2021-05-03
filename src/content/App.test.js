@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import App from './App';
 import ReactDOM from 'react-dom'
 import { act } from "react-dom/test-utils";
@@ -76,10 +76,10 @@ describe("Test de BrokerURL", () => {
     const input = document.querySelector("input");
   
     act(() => {
-      input.dispatchEvent(new KeyboardEvent('keydown',{'key':'a', bubbles: true}));
+      fireEvent.change(input, {target : { value : 'test'}})
     });
   
-    expect(input.value).toBe("Une urla");
+    expect(input.value).toBe("test");
   });
 });
 
