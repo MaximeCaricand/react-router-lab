@@ -9,7 +9,7 @@ import BrokerUrl from './BrokerUrl/BrokerUrl';
 import SensorList from './SensorList/SensorList';
 import Sensor from './Sensor/Sensor';
 import { Route } from 'react-router-dom';
-import { setUrlCookie, getUrlCookie } from '../utils'
+import { setUrlCookie, getUrlCookie } from '../utils';
 
 let container = null;
 beforeEach(() => {
