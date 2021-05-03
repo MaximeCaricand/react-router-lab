@@ -41,7 +41,6 @@ export default function App(props) {
                             onClick={(sensorName) => setCurrentSensor(sensorName)} />
                     </div>
                     <div className={styles.actualvalue}>{items}</div>
-                    test
                 </div>
             )
         } else {
