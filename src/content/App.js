@@ -1,5 +1,5 @@
 import styles from './App.module.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Route } from 'react-router-dom';
 import { getlinkFromName, getUrlCookie, setUrlCookie } from '../utils';
 import logo from '../404.png';
@@ -15,8 +15,10 @@ export default function App(props) {
     const [sensorList, setSensorList] = useState([]);
     const [currentSensor, setCurrentSensor] = useState(null);
     const [firstAppend, setFirstAppend] = useState(true);
+    const isMounted = useRef(false);
 
     useEffect(() => {
+        isMounted.current = true;
         const listenerEvent = 'updateSensor';
         if (mqttClient.listenerCount(listenerEvent)) {
             mqttClient.removeAllListeners(listenerEvent);
@@ -24,6 +26,8 @@ export default function App(props) {
         mqttClient.on(listenerEvent, () => {
             setSensorList(mqttClient.sensors);
         });
+
+        return () => {isMounted.current = false};
     }, [mqttClient]);
 
     function renderAppContent() {
@@ -59,10 +63,13 @@ export default function App(props) {
     }
 
     useEffect(() => {
+        isMounted.current = true;
         if (mqttUrl) {
             setUrlCookie(mqttUrl);
             mqttClient.startMQTT(mqttUrl);
         }
+
+        return () => isMounted.current = false;
     }, [mqttUrl, mqttClient]);
 
     
@@ -70,7 +77,7 @@ export default function App(props) {
         return (
             <div className={styles.app}>
             <div className={styles.broker}><BrokerUrl mqttUrl={mqttUrl} onSubmit={handleBrokerInputSubmit} /></div>
-
+            <div id="first">Choisissez un URL</div>
             <footer className={styles.footer} >
                 <em>By Maxime CARICAND and Alexis LABBE</em>
             </footer>

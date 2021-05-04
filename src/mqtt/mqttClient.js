@@ -24,12 +24,13 @@ export default class MQTTSensors extends EventEmitter {
             this.client.end();
         }
         try {
+            
             this.client = connect(url);
             this.client.on('connect', () => {
-                console.log('connected');
+                
                 this.client.subscribe('value/+', (_, granted) => {
                     granted.forEach(entry => { // maybe useless ...
-                        console.log(`subscribed to ${entry.topic}`);
+                        
                     });
                 });
             });

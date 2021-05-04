@@ -10,6 +10,7 @@ import SensorList from './SensorList/SensorList';
 import Sensor from './Sensor/Sensor';
 import { Route } from 'react-router-dom';
 import { setUrlCookie, getUrlCookie } from '../utils';
+import reportWebVitals from '../reportWebVitals';
 
 let container = null;
 beforeEach(() => {
@@ -165,5 +166,25 @@ describe("Test de Sensor", () => {
     const div = document.querySelector("#value1");
 
     expect(div.textContent).toBe("48");
+  });
+});
+
+describe("Test de App", () => {
+  it('Première arrivé sur la page', () => {
+    setUrlCookie("ws://random.pigne.org:9001");
+    act(() => {
+      render(
+        <React.StrictMode>
+          <BrowserRouter>
+              <App />
+          </BrowserRouter>
+        </React.StrictMode>,
+        container
+      ) 
+    });
+    
+    const div = document.querySelector("#first");
+
+    expect(div.textContent).toBe("Choisissez un URL");
   });
 });
