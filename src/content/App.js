@@ -47,7 +47,7 @@ export default class App extends React.Component {
                 } />;
             });
             return (
-                <div className={styles.content}>
+                <div id="content" className={styles.content}>
                     <div className={styles.listsensors}>
                         <SensorList sensorList={this.state.sensorList} currentSensor={this.state.currentSensor}
                             onClick={(sensorName) => this.updateState({ currentSensor: sensorName })} />
@@ -55,11 +55,11 @@ export default class App extends React.Component {
                     <div className={styles.actualvalue}>{items}</div>
                 </div>
             )
-        } else {
+        } else if (this.state.mqttUrl) {
             return (
                 <div className={styles.wrongURL}>
                     <img className={styles.image} src={logo} alt=""></img>
-                    <div>L'URL entrée n'a rien donnée</div>
+                    <div id="textDefault">L'URL entrée n'a rien donnée</div>
                 </div>
             )
         }
@@ -76,7 +76,7 @@ export default class App extends React.Component {
             <div className={styles.app}>
                 <div className={styles.broker}><BrokerUrl mqttUrl={this.state.mqttUrl} onSubmit={this.handleBrokerInputSubmit} /></div>
                 {this.renderAppContent()}
-                <footer className={styles.footer} >
+                <footer className={this.state.mqttUrl ? styles['url-footer'] : styles['no-url-footer']} >
                     <em>By Maxime CARICAND and Alexis LABBE</em>
                 </footer>
             </div>
