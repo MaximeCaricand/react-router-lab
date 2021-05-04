@@ -20,7 +20,7 @@ function SensorName(props) {
     const isSelected = props.isSelected ? 'normalLink' : 'selectedLink';
     return (
         <Link to={link} >
-            <div id={"sensor"+props.index} className={`${styles.Link} ${styles[isPair]} ${styles[isSelected]}`} key={props.index} onClick={props.onClick}>
+            <div id={"sensor" + props.index} className={`${styles.Link} ${styles[isPair]} ${styles[isSelected]}`} key={props.index} onClick={props.onClick}>
                 {props.name}
             </div>
         </Link>

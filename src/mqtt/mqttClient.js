@@ -24,16 +24,8 @@ export default class MQTTSensors extends EventEmitter {
             this.client.end();
         }
         try {
-            
             this.client = connect(url);
-            this.client.on('connect', () => {
-                
-                this.client.subscribe('value/+', (_, granted) => {
-                    granted.forEach(entry => { // maybe useless ...
-                        
-                    });
-                });
-            });
+            this.client.on('connect', () => this.client.subscribe('value/+'));
             this.client.on('message', (_, message) => {
                 const data = JSON.parse(message);
                 this.updateSensorValues(data);

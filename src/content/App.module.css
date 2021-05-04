@@ -29,9 +29,13 @@
     margin-top: 20px;
 }
 
-.footer {
+.url-footer {
     margin-top: 10px;
     text-align: right;
+}
+
+.no-url-footer {
+    margin-top: 150px;
 }
 
 .wrongURL {

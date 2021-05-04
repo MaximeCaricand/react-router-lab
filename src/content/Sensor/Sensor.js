@@ -19,7 +19,7 @@ function TableHistory(props) {
     const rows = props.sensor.sensorValues.sort((a, b) => b.date - a.date).slice(0, 6).map((sensorValue, index) => {
         return (
             <tr className={styles['ligne' + (index % 2 ? "1" : "2")]} key={index}>
-                <td id={"value"+index}>{handleSensorValueType(sensorValue.value, props.sensor.type)}</td>
+                <td id={"value" + index}>{handleSensorValueType(sensorValue.value, props.sensor.type)}</td>
                 <td>{sensorValue.formatedDate}</td>
             </tr>
         );
