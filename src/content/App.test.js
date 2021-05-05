@@ -86,6 +86,27 @@ describe("Test de BrokerURL", () => {
 
 
 describe("Test de SensorList", () => {
+    it('Une sensor list avec 5 sensors', () => {
+      const uneFonction = jest.fn();
+      let names = ["sensor 1", "sensor 2", "sensor 3", "sensor 4", "sensor 5"];
+      act(() => {
+          render(
+              <BrowserRouter>
+                  <SensorList sensorList={names} currentSensor={"sensor 1"} onClick={uneFonction} />
+
+              </BrowserRouter>, container)
+      });
+
+      const button = document.querySelector("#sensor1");
+
+
+      act(() => {
+          button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      });
+
+      expect(uneFonction).toHaveBeenCalled();
+    });
+
     it('Fonction onClick', () => {
         const uneFonction = jest.fn();
         let names = ["sensor 1", "sensor 2", "sensor 3"];
@@ -187,29 +208,4 @@ describe("Test de App", () => {
 
         expect(div.textContent).toBe("L'URL entrée n'a rien donnée");
     });
-
-    it('modification de l\'url', () => {
-      act(() => {
-          render(
-              <React.StrictMode>
-                  <BrowserRouter>
-                      <App mqttClient={new MQTTSensors()}/>
-                  </BrowserRouter>
-              </React.StrictMode>,
-              container
-          )
-      });
-
-      const input = document.querySelector("#input");
-      const button = document.querySelector("#bouton");
-
-      act(() => {
-          fireEvent.change(input, { target: { value: 'ws://random.pigne.org:9001' } })
-          button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-      });
-
-      const div = document.querySelector("#content");
-
-      expect(div).not.toBeNull();
-  });
 });
