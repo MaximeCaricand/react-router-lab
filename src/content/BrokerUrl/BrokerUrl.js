@@ -27,7 +27,7 @@ export default class BrokerUrl extends React.Component {
             <div>
                 <div>URL du serveur MQTT</div>
                 <form onSubmit={this.handleSubmit} autoComplete="on">
-                    <input className={styles['mqtt-url-link']} type='url' name="url" defaultValue={this.state.url} placeholder={DEFAULT_URl} onChange={this.handleChange} />
+                    <input id={'input'}className={styles['mqtt-url-link']} type='url' name="url" defaultValue={this.state.url} placeholder={DEFAULT_URl} onChange={this.handleChange} />
                     <button id={'bouton'} className={styles['mqtt-url-button']} onClick={this.handleSubmit}>connection</button>
                 </form>
             </div>

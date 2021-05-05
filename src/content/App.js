@@ -18,20 +18,22 @@ export default class App extends React.Component {
             currentSensor: null
         }
         this.handleBrokerInputSubmit = this.handleBrokerInputSubmit.bind(this);
+        this.onUpdateSensor = (data) => {
+            const dataToUpdate = data ? { sensorList: this.state.mqttClient.getSensorsNames() } : null;
+            this.updateState(dataToUpdate);
+        };
     }
 
     componentDidMount() {
         if (this.state.mqttUrl) {
             this.state.mqttClient?.startMQTT(this.state.mqttUrl);
         }
-        this.state.mqttClient?.on('updateSensor', (data) => {
-            const dataToUpdate = data ? { sensorList: this.state.mqttClient.getSensorsNames() } : null;
-            this.updateState(dataToUpdate);
-        });
+
+        this.state.mqttClient?.on('updateSensor', this.onUpdateSensor);
     }
 
     componentWillUnmount() {
-        this.state.mqttClient?.removeListener('updateSensor');
+        this.state.mqttClient?.removeListener('updateSensor', this.onUpdateSensor);
     }
 
     updateState(newState) {
@@ -40,6 +42,7 @@ export default class App extends React.Component {
 
     renderAppContent() {
         if (this.state.mqttClient?.isConnected) {
+            console.log("JE PASSE ICI")
             const items = this.state.sensorList.map((sensorName, index) => {
                 const link = `/${getlinkFromName(sensorName)}`;
                 return <Route exact path={link} key={index} render={() =>
