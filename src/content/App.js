@@ -42,7 +42,6 @@ export default class App extends React.Component {
 
     renderAppContent() {
         if (this.state.mqttClient?.isConnected) {
-            console.log("JE PASSE ICI")
             const items = this.state.sensorList.map((sensorName, index) => {
                 const link = `/${getlinkFromName(sensorName)}`;
                 return <Route exact path={link} key={index} render={() =>
