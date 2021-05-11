@@ -16,6 +16,9 @@ export default function App(props) {
     const [currentSensor, setCurrentSensor] = useState(null);
 
     useEffect(() => {
+        if (mqttUrl) {
+            mqttClient.startMQTT(mqttUrl);
+        }
         const listenerEvent = 'updateSensor';
         if (mqttClient.listenerCount(listenerEvent)) {
             mqttClient.removeAllListeners(listenerEvent);
@@ -23,7 +26,7 @@ export default function App(props) {
         mqttClient.on(listenerEvent, () => {
             setSensorList(mqttClient.sensors);
         });
-    }, [mqttClient]);
+    }, [mqttClient, mqttUrl]);
 
     function renderAppContent() {
         if (mqttClient.isConnected) {
@@ -54,10 +57,8 @@ export default function App(props) {
 
     function handleBrokerInputSubmit(url) {
         setMqttUrl(url);
-        if (url) {
-            setUrlCookie(url);
-            mqttClient.startMQTT(url);
-        }
+        setUrlCookie(url);
+        mqttClient.startMQTT(url);
     }
 
     return (

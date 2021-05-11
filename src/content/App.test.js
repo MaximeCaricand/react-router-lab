@@ -87,24 +87,23 @@ describe("Test de BrokerURL", () => {
 
 describe("Test de SensorList", () => {
     it('Une sensor list avec 5 sensors', () => {
-      const uneFonction = jest.fn();
-      let names = ["sensor 1", "sensor 2", "sensor 3", "sensor 4", "sensor 5"];
-      act(() => {
-          render(
-              <BrowserRouter>
-                  <SensorList sensorList={names} currentSensor={"sensor 1"} onClick={uneFonction} />
+        const uneFonction = jest.fn();
+        let names = ["sensor 1", "sensor 2", "sensor 3", "sensor 4", "sensor 5"];
+        act(() => {
+            render(
+                <BrowserRouter>
+                    <SensorList sensorNames={names} currentSensor={"sensor 1"} onClick={uneFonction} />
+                </BrowserRouter>, container)
+        });
 
-              </BrowserRouter>, container)
-      });
-
-      const button = document.querySelector("#sensor1");
+        const button = document.querySelector("#sensor1");
 
 
-      act(() => {
-          button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-      });
+        act(() => {
+            button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        });
 
-      expect(uneFonction).toHaveBeenCalled();
+        expect(uneFonction).toHaveBeenCalled();
     });
 
     it('Fonction onClick', () => {
@@ -197,7 +196,7 @@ describe("Test de App", () => {
             render(
                 <React.StrictMode>
                     <BrowserRouter>
-                        <App mqttClient={new MQTTSensors()}/>
+                        <App mqttClient={new MQTTSensors()} />
                     </BrowserRouter>
                 </React.StrictMode>,
                 container
