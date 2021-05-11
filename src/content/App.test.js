@@ -10,6 +10,7 @@ import SensorList from './SensorList/SensorList';
 import Sensor from './Sensor/Sensor';
 import { Route } from 'react-router-dom';
 import { setUrlCookie, getUrlCookie } from '../utils';
+import MQTTSensors from '../mqtt/mqttClient';
 
 let container = null;
 beforeEach(() => {
@@ -85,6 +86,27 @@ describe("Test de BrokerURL", () => {
 
 
 describe("Test de SensorList", () => {
+    it('Une sensor list avec 5 sensors', () => {
+      const uneFonction = jest.fn();
+      let names = ["sensor 1", "sensor 2", "sensor 3", "sensor 4", "sensor 5"];
+      act(() => {
+          render(
+              <BrowserRouter>
+                  <SensorList sensorList={names} currentSensor={"sensor 1"} onClick={uneFonction} />
+
+              </BrowserRouter>, container)
+      });
+
+      const button = document.querySelector("#sensor1");
+
+
+      act(() => {
+          button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      });
+
+      expect(uneFonction).toHaveBeenCalled();
+    });
+
     it('Fonction onClick', () => {
         const uneFonction = jest.fn();
         let names = ["sensor 1", "sensor 2", "sensor 3"];
@@ -169,21 +191,21 @@ describe("Test de Sensor", () => {
 });
 
 describe("Test de App", () => {
-    it('Première arrivé sur la page', () => {
-        setUrlCookie("ws://random.pigne.org:9001");
+    it('Première arrivé sur la page ou l\'url est incorrecte', () => {
+        setUrlCookie("ws://random.pigne.org:900");
         act(() => {
             render(
                 <React.StrictMode>
                     <BrowserRouter>
-                        <App />
+                        <App mqttClient={new MQTTSensors()}/>
                     </BrowserRouter>
                 </React.StrictMode>,
                 container
             )
         });
 
-        const div = document.querySelector("#first");
+        const div = document.querySelector("#textDefault");
 
-        expect(div.textContent).toBe("Choisissez un URL");
+        expect(div.textContent).toBe("L'URL entrée n'a rien donnée");
     });
 });

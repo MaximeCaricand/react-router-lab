@@ -19,7 +19,7 @@ export default function BrokerUrl(props) {
         <div>
             <div>URL du serveur MQTT</div>
             <form onSubmit={handleSubmit} autoComplete="on">
-                <input className={styles['mqtt-url-link']} type='url' name="url" defaultValue={url} placeholder={DEFAULT_URl} onChange={handleChange} />
+                <input id={'input'} className={styles['mqtt-url-link']} type='url' name="url" defaultValue={url} placeholder={DEFAULT_URl} onChange={handleChange} />
                 <button id="bouton" className={styles['mqtt-url-button']} onClick={handleSubmit}>connexion</button>
             </form>
         </div>
